@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="${'Person' + person.getPersonId()}"></title>
+</head>
+<body>
+<h2 th:text="${person.getFullName() + ', ' + person.getYearOfBirth()}" />
+<div th:if="${books.size() > 0}">
+  <h3>Книги</h3>
+  <ul th:each="book: ${books}">
+    <li th:text="${book.getAuthor() + ', ' + book.getName() + ', ' + book.getYear()}" />
+  </ul>
+</div>
+<p th:if="${books.size() == 0}">Человек пока не взял ни одной книги</p>
+
+</body>
+</html>
