@@ -13,11 +13,10 @@ public class Book {
     private String name;
 
     @NotEmpty(message = "Название должно быть не пустое")
-    @Pattern(regexp = "([A-Z]\\w+ ){3}", message = "ФИО автора должно быть в формате Имя Фамилия Отчество")
+    @Pattern(regexp = "[А-ЯЁ][а-яё]+ [А-ЯЁ][а-яё]+ [А-ЯЁ][а-яё]+", message = "ФИО автора должно быть в формате Имя Фамилия Отчество")
     private String author;
 
     @NotEmpty(message = "Год должен быть не пустым")
-    @Pattern(regexp = "\\d{4}", message = "Год должен быть в формате гггг (4 символа)")
     private int year;
 
     public Book() {}

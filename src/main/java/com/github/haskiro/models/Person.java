@@ -1,13 +1,12 @@
 package com.github.haskiro.models;
 
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 public class Person {
     private int personId;
     @NotEmpty(message = "ФИО не должно быть пустым")
-    @Size(min = 6, max = 100, message = "ФИО должно быть длинной в диапазоне от 6 до 100 символов")
+    @Size(max = 100, message = "Максимальная длина ФИО 100 символов")
+    @Pattern(regexp = "[А-ЯЁ][а-яё]+ [А-ЯЁ][а-яё]+ [А-ЯЁ][а-яё]+", message = "ФИО должно быть в формате Имя Фамилия Отчество")
     private String fullName;
     @Min(value = 1900, message = "Год рождения должен быть больше 1900")
     private int yearOfBirth;
