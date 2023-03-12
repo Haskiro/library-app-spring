@@ -3,7 +3,7 @@ package com.github.haskiro.models;
 import jakarta.validation.constraints.*;
 
 public class Person {
-    private int personId;
+    private Integer personId;
     @NotEmpty(message = "ФИО не должно быть пустым")
     @Size(max = 100, message = "Максимальная длина ФИО 100 символов")
     @Pattern(regexp = "[А-ЯЁ][а-яё]+ [А-ЯЁ][а-яё]+ [А-ЯЁ][а-яё]+", message = "ФИО должно быть в формате Имя Фамилия Отчество")
@@ -13,13 +13,13 @@ public class Person {
 
     public Person() {}
 
-    public Person(int personId, String fullName, int yearOfBirth) {
+    public Person(Integer personId, String fullName, int yearOfBirth) {
         this.personId = personId;
         this.fullName = fullName;
         this.yearOfBirth = yearOfBirth;
     }
 
-    public int getPersonId() {
+    public Integer getPersonId() {
         return personId;
     }
 

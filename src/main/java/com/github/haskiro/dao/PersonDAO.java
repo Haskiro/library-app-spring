@@ -24,8 +24,8 @@ public class PersonDAO {
         return jdbcTemplate.query("SELECT * FROM Person", new BeanPropertyRowMapper<>(Person.class));
     }
 
-    public Person getSinglePerson(int id) {
-        return jdbcTemplate.query("SELECT * FROM Person WHERE person_id=?", new Object[]{id} , new BeanPropertyRowMapper<>(Person.class)).stream().findAny().orElse(null);
+    public Optional<Person> getSinglePerson(int id) {
+        return jdbcTemplate.query("SELECT * FROM Person WHERE person_id=?", new Object[]{id} , new BeanPropertyRowMapper<>(Person.class)).stream().findAny();
     }
 
     public Optional<Person> getSinglePerson(String fullName) {

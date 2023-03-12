@@ -1,6 +1,7 @@
 package com.github.haskiro.dao;
 
 import com.github.haskiro.models.Book;
+import com.github.haskiro.models.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -25,6 +26,14 @@ public class BookDAO {
     public void create(Book book) {
         jdbcTemplate.update("INSERT INTO Book(name, author, year) VALUES (?, ?, ?)",
                 book.getName(), book.getAuthor(), book.getYear());
+    }
+
+    public Optional<Book> getSingleBook(int id) {
+        return jdbcTemplate.query("SELECT * FROM Book WHERE book_id=?", new Object[]{id}, new BookMapper()).stream().findAny();
+    }
+
+    public void updateBookOwner(int id, Person person) {
+        jdbcTemplate.update("UPDATE Book SET person_id=? WHERE book_id=?", person.getPersonId(),  id);
     }
 
 
