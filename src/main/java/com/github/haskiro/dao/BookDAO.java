@@ -1,24 +1,25 @@
 package com.github.haskiro.dao;
 
-import com.github.haskiro.models.Person;
+import com.github.haskiro.models.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class PersonDAO {
+public class BookDAO {
     private final JdbcTemplate jdbcTemplate;
-
-
     @Autowired
-    public PersonDAO(JdbcTemplate jdbcTemplate) {
+    public BookDAO(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<Person> index() {
-        return jdbcTemplate.query("SELECT * FROM Person", new BeanPropertyRowMapper<>(Person.class));
+    public List<Book> index() {
+        return jdbcTemplate.query("SELECT * FROM Book", new BookMapper());
     }
+
+
 }
