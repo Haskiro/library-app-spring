@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class BookDAO {
@@ -19,6 +20,11 @@ public class BookDAO {
 
     public List<Book> index() {
         return jdbcTemplate.query("SELECT * FROM Book", new BookMapper());
+    }
+
+    public void create(Book book) {
+        jdbcTemplate.update("INSERT INTO Book(name, author, year) VALUES (?, ?, ?)",
+                book.getName(), book.getAuthor(), book.getYear());
     }
 
 

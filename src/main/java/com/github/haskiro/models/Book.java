@@ -1,8 +1,6 @@
 package com.github.haskiro.models;
 
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import org.springframework.lang.Nullable;
 
 public class Book {
@@ -16,7 +14,7 @@ public class Book {
     @Pattern(regexp = "[А-ЯЁ][а-яё]+ [А-ЯЁ][а-яё]+ [А-ЯЁ][а-яё]+", message = "ФИО автора должно быть в формате Имя Фамилия Отчество")
     private String author;
 
-    @NotEmpty(message = "Год должен быть не пустым")
+    @NotNull(message = "Год должен быть не пустым")
     private int year;
 
     public Book() {}
