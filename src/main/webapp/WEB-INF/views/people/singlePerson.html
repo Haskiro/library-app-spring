@@ -13,6 +13,12 @@
   </ul>
 </div>
 <p th:if="${books.size() == 0}">Человек пока не взял ни одной книги</p>
-
+<hr>
+<button>
+  <a th:href="@{/people/{id}/edit(id=${person.getPersonId()})}">Редактировать</a>
+</button>
+<form th:method="DELETE" th:action="@{/people/{id}(id=${person.getPersonId()})}">
+  <input type="submit" value="Delete">
+</form>
 </body>
 </html>

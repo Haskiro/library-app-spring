@@ -5,7 +5,7 @@
   <title>Create Book</title>
 </head>
 <body>
-<form th:action="@{/books}" th:method="POST" th:object="${book}">
+<form th:action="@{/books/{id}(id=${book.getBookId()})}" th:method="PATCH" th:object="${book}">
   <label for="Author">Автор</label>
   <input type="text" th:field="*{author}" id="Author">
   <p th:if="${#fields.hasErrors('author')}" th:errors="*{author}" style="color: red">Author Error</p>
@@ -18,7 +18,7 @@
   <input type="text" th:field="*{year}" id="year">
   <p th:if="${#fields.hasErrors('year')}" th:errors="*{year}" style="color: red">Year Error</p>
   <br>
-  <input type="submit" value="Добавить книгу">
+  <input type="submit" value="Редактировать!">
 </form>
 
 </body>

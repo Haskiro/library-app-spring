@@ -29,7 +29,7 @@ public class PeopleController {
     }
 
     @GetMapping("/{id}")
-    public String singlePerson(@PathVariable("id") int id, Model model) {
+    public String singlePersonPage(@PathVariable("id") int id, Model model) {
         model.addAttribute("person", personDAO.getSinglePerson(id).orElse(null));
         model.addAttribute("books", personDAO.getSinglePersonTakenBooks(id));
 
@@ -37,7 +37,7 @@ public class PeopleController {
     }
 
     @GetMapping("/new")
-    public String newPerson(@ModelAttribute("person") Person person) {
+    public String newPersonPage(@ModelAttribute("person") Person person) {
         return "people/new";
     }
 
@@ -56,7 +56,34 @@ public class PeopleController {
         return "redirect:/people";
     }
 
+    @DeleteMapping("/{id}")
+    public String deletePerson(@PathVariable("id") int id) {
+        personDAO.delete(id);
 
+        return "redirect:/people";
+    }
+
+    @GetMapping("/{id}/edit")
+    public String editPersonPage(@PathVariable("id") int id, Model model) {
+        model.addAttribute("person", personDAO.getSinglePerson(id).orElse(null));
+
+        return "people/edit";
+    }
+
+    @PatchMapping("/{id}")
+    public String updatePerson(@PathVariable("id") int id,
+                               @ModelAttribute("person") @Valid Person person,
+                               BindingResult bindingResult) {
+        personValidator.validate(person, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            return "people/edit";
+        }
+
+        personDAO.update(id, person);
+
+        return "redirect:/people/" + id;
+    }
 
 
 

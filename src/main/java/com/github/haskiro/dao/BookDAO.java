@@ -32,8 +32,13 @@ public class BookDAO {
         return jdbcTemplate.query("SELECT * FROM Book WHERE book_id=?", new Object[]{id}, new BookMapper()).stream().findAny();
     }
 
-    public void updateBookOwner(int id, Person person) {
-        jdbcTemplate.update("UPDATE Book SET person_id=? WHERE book_id=?", person.getPersonId(),  id);
+    public void update(int id, Book book) {
+        jdbcTemplate.update("UPDATE Book SET person_id=?, name=?, author=?, year=? WHERE book_id=?",
+                book.getPersonId(), book.getName(), book.getAuthor(), book.getYear(), id);
+    }
+
+    public void delete(int id) {
+        jdbcTemplate.update("DELETE FROM Book WHERE book_id=?", id);
     }
 
 
