@@ -11,5 +11,7 @@
             th:text="${person.getFullName() + ', ' + person.getYearOfBirth()}"></a>
         </li>
     </ul>
+    <hr>
+    <a th:href="@{/people/new}">Добавить человека</a>
 </body>
 </html>
