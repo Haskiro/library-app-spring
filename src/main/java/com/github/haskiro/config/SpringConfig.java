@@ -111,9 +111,4 @@ public class SpringConfig implements WebMvcConfigurer {
         return transactionManager;
     }
 
-    @Bean
-    public JdbcTemplate jdbcTemplate() {
-        return new JdbcTemplate(dataSource());
-    }
-
 }
