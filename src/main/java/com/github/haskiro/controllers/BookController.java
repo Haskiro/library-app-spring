@@ -1,9 +1,9 @@
 package com.github.haskiro.controllers;
 
 import com.github.haskiro.dao.BookDAO;
-import com.github.haskiro.dao.PersonDAO;
 import com.github.haskiro.models.Book;
 import com.github.haskiro.models.Person;
+import com.github.haskiro.services.PeopleService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/books")
 public class BookController {
     private final BookDAO bookDAO;
-    private final PersonDAO personDAO;
+    private final PeopleService peopleService;
 
     @Autowired
-    public BookController(BookDAO bookDAO, PersonDAO personDAO) {
+    public BookController(BookDAO bookDAO, PeopleService peopleService) {
         this.bookDAO = bookDAO;
-        this.personDAO = personDAO;
+        this.peopleService = peopleService;
     }
 
 
@@ -54,7 +54,7 @@ public class BookController {
         Person person = bookDAO.getBookOwner(id);
 
         if (person == null) {
-            model.addAttribute("people", personDAO.index());
+            model.addAttribute("people", peopleService.findAll());
             person = new Person();
         }
 

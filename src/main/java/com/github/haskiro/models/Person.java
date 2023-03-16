@@ -1,15 +1,30 @@
 package com.github.haskiro.models;
 
+import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
+import java.util.List;
+
+
+@Entity
+@Table(name = "person")
 public class Person {
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @NotEmpty(message = "ФИО не должно быть пустым")
     @Size(max = 100, message = "Максимальная длина ФИО 100 символов")
     @Pattern(regexp = "[А-ЯЁ][а-яё]+ [А-ЯЁ][а-яё]+ [А-ЯЁ][а-яё]+", message = "ФИО должно быть в формате Имя Фамилия Отчество")
+    @Column(name = "full_name")
     private String fullName;
+
+    @Column(name = "year_of_birth")
     @Min(value = 1900, message = "Год рождения должен быть больше 1900")
     private int yearOfBirth;
+
+    @OneToMany(mappedBy = "owner")
+    private List<Book> books;
 
     public Person() {}
 
@@ -40,5 +55,22 @@ public class Person {
 
     public void setYearOfBirth(int yearOfBirth) {
         this.yearOfBirth = yearOfBirth;
+    }
+
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id=" + id +
+                ", fullName='" + fullName + '\'' +
+                ", yearOfBirth=" + yearOfBirth +
+                '}';
     }
 }

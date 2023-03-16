@@ -1,7 +1,7 @@
 package com.github.haskiro.controllers;
 
-import com.github.haskiro.dao.PersonDAO;
 import com.github.haskiro.models.Person;
+import com.github.haskiro.services.PeopleService;
 import com.github.haskiro.utils.PersonValidator;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,25 +13,24 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/people")
 public class PeopleController {
-    private final PersonDAO personDAO;
+    private final PeopleService peopleService;
     private final PersonValidator personValidator;
 
     @Autowired
-    public PeopleController(PersonDAO personDAO, PersonValidator personValidator) {
-        this.personDAO = personDAO;
+    public PeopleController(PeopleService peopleService, PersonValidator personValidator) {
+        this.peopleService = peopleService;
         this.personValidator = personValidator;
     }
 
     @GetMapping()
     public String index(Model model) {
-        model.addAttribute("people", personDAO.index());
+        model.addAttribute("people", peopleService.findAll());
         return "people/index";
     }
 
     @GetMapping("/{id}")
     public String singlePersonPage(@PathVariable("id") int id, Model model) {
-        model.addAttribute("person", personDAO.getSinglePerson(id).orElse(null));
-        model.addAttribute("books", personDAO.getPersonBooks(id));
+        model.addAttribute("person", peopleService.findOneById(id).orElse(null));
 
         return "people/singlePerson";
     }
@@ -51,21 +50,21 @@ public class PeopleController {
             return "people/new";
         }
 
-        personDAO.create(person);
+        peopleService.create(person);
 
         return "redirect:/people";
     }
 
     @DeleteMapping("/{id}")
     public String deletePerson(@PathVariable("id") int id) {
-        personDAO.delete(id);
+        peopleService.delete(id);
 
         return "redirect:/people";
     }
 
     @GetMapping("/{id}/edit")
     public String editPersonPage(@PathVariable("id") int id, Model model) {
-        model.addAttribute("person", personDAO.getSinglePerson(id).orElse(null));
+        model.addAttribute("person", peopleService.findOneById(id).orElse(null));
 
         return "people/edit";
     }
@@ -80,7 +79,7 @@ public class PeopleController {
             return "people/edit";
         }
 
-        personDAO.update(id, person);
+        peopleService.update(id, person);
 
         return "redirect:/people/" + id;
     }
