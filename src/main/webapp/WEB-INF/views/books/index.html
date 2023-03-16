@@ -7,11 +7,11 @@
 <body>
 <ul th:each="book: ${books}">
   <li>
-    <a th:href="@{/books/{id}(id=${book.getBookId()})}"
-       th:text="${book.getName() + ', ' + book.getYear()}"></a>
+    <a th:href="@{/books/{id}(id=${book.getId()})}"
+       th:text="${book.getTitle() + ', ' + book.getYear()}"></a>
   </li>
 </ul>
 <hr>
-<a th:href="@{/people/new}">Добавить книгу</a>
+<a th:href="@{/books/new}">Добавить книгу</a>
 </body>
 </html>

@@ -4,11 +4,10 @@ import jakarta.validation.constraints.*;
 import org.springframework.lang.Nullable;
 
 public class Book {
-    private int bookId;
-    private Integer personId;
+    private int id;
     @NotEmpty(message = "Название должно быть не пустое")
     @Size(min = 3, max = 30, message = "Название должно быть в диапазоне от 3 до 30 символов")
-    private String name;
+    private String title;
 
     @NotEmpty(message = "Название должно быть не пустое")
     @Pattern(regexp = "[А-ЯЁ][а-яё]+ [А-ЯЁ][а-яё]+ [А-ЯЁ][а-яё]+", message = "ФИО автора должно быть в формате Имя Фамилия Отчество")
@@ -18,37 +17,26 @@ public class Book {
     private int year;
 
     public Book() {}
-    public Book(int bookId, int personId, String name, String author, int year) {
-
-        this.bookId = bookId;
-        this.personId = personId;
-        this.name = name;
+    public Book(String title, String author, int year) {
+        this.title = title;
         this.author = author;
         this.year = year;
     }
 
-    public int getBookId() {
-        return bookId;
+    public int getId() {
+        return id;
     }
 
-    public void setBookId(int bookId) {
-        this.bookId = bookId;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public Integer getPersonId() {
-        return personId;
+    public String getTitle() {
+        return title;
     }
 
-    public void setPersonId(Integer personId) {
-        this.personId = personId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getAuthor() {

@@ -25,7 +25,7 @@ public class PersonDAO {
     }
 
     public Optional<Person> getSinglePerson(int id) {
-        return jdbcTemplate.query("SELECT * FROM Person WHERE person_id=?", new Object[]{id} , new BeanPropertyRowMapper<>(Person.class)).stream().findAny();
+        return jdbcTemplate.query("SELECT * FROM Person WHERE id=?", new Object[]{id} , new BeanPropertyRowMapper<>(Person.class)).stream().findAny();
     }
 
     public Optional<Person> getSinglePerson(String fullName) {
@@ -34,8 +34,8 @@ public class PersonDAO {
                 new BeanPropertyRowMapper<>(Person.class)).stream().findAny();
     }
 
-    public List<Book> getSinglePersonTakenBooks(int id) {
-        return jdbcTemplate.query("SELECT * FROM Book WHERE person_id=?", new Object[]{id}, new BookMapper());
+    public List<Book> getPersonBooks(int id) {
+        return jdbcTemplate.query("SELECT * FROM Book WHERE person_id=?", new Object[]{id}, new BeanPropertyRowMapper<>(Book.class));
     }
 
     public void create(Person person) {
@@ -44,11 +44,11 @@ public class PersonDAO {
     }
 
     public void delete(int id) {
-        jdbcTemplate.update("DELETE FROM Person WHERE person_id=?", id);
+        jdbcTemplate.update("DELETE FROM Person WHERE id=?", id);
     }
 
     public void update(int id, Person person) {
-        jdbcTemplate.update("UPDATE Person SET full_name=?, year_of_birth=? WHERE person_id=?",
+        jdbcTemplate.update("UPDATE Person SET full_name=?, year_of_birth=? WHERE id=?",
                 person.getFullName(), person.getYearOfBirth(), id);
     }
 }

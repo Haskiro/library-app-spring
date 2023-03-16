@@ -48,15 +48,17 @@ public class BookController {
     }
 
     @GetMapping("/{id}")
-    public String singlePerson(@PathVariable("id") int id,
+    public String singleBook(@PathVariable("id") int id,
                                Model model) {
-        Book book = bookDAO.getSingleBook(id).orElse(null);
+        Book book = bookDAO.getSingleBook(id);
+        Person person = bookDAO.getBookOwner(id);
 
-        if (book.getPersonId() == null) {
+        if (person == null) {
             model.addAttribute("people", personDAO.index());
-        } else {
-            model.addAttribute("person", personDAO.getSinglePerson(book.getPersonId()).get());
+            person = new Person();
         }
+
+        model.addAttribute("person", person);
         model.addAttribute("book", book);
 
         return "books/singleBook";
@@ -64,8 +66,21 @@ public class BookController {
 
     @PatchMapping("/{id}")
     public String updateBook(@PathVariable("id") int id, @ModelAttribute("book") Book book) {
-        System.out.println(book.getName());
         bookDAO.update(id, book);
+
+        return "redirect:/books/" + id;
+    }
+
+    @PatchMapping("/{id}/set_owner")
+    public String setBookOwner(@PathVariable("id") int id, @ModelAttribute("person") Person person) {
+        bookDAO.setOwner(id, person.getId());
+
+        return "redirect:/books/" + id;
+    }
+
+    @PatchMapping("/{id}/unset_owner")
+    public String unsetBookOwner(@PathVariable("id") int id) {
+        bookDAO.unsetOwner(id);
 
         return "redirect:/books/" + id;
     }
@@ -79,7 +94,7 @@ public class BookController {
 
     @GetMapping("/{id}/edit")
     public String editBook(@PathVariable("id") int id, Model model) {
-        model.addAttribute("book", bookDAO.getSingleBook(id).orElse(null));
+        model.addAttribute("book", bookDAO.getSingleBook(id));
 
         return "books/edit";
     }

@@ -31,7 +31,7 @@ public class PeopleController {
     @GetMapping("/{id}")
     public String singlePersonPage(@PathVariable("id") int id, Model model) {
         model.addAttribute("person", personDAO.getSinglePerson(id).orElse(null));
-        model.addAttribute("books", personDAO.getSinglePersonTakenBooks(id));
+        model.addAttribute("books", personDAO.getPersonBooks(id));
 
         return "people/singlePerson";
     }
