@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Duration;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,7 +28,14 @@ public class PeopleService {
 
     public Optional<Person> findOneById(int id) {
         Optional<Person> person = peopleRepository.findById(id);
-        person.ifPresent(value -> Hibernate.initialize(value.getBooks()));
+        if (person.isPresent()) {
+            Hibernate.initialize(person.get().getBooks());
+            person.get().getBooks().forEach(book -> {
+                if (Duration.between(book.getTakenAt(), OffsetDateTime.now()).toDays() > 10) {
+                    book.setToBeReturned(true);
+                }
+            });
+        }
 
         return peopleRepository.findById(id);
     }

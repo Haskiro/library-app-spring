@@ -8,8 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
+import java.time.Duration;
+import java.time.OffsetDateTime;
+import java.util.*;
 
 @Service
 public class BooksService {
@@ -26,7 +27,8 @@ public class BooksService {
     }
 
     public Book findOneById(int id) {
-        return booksRepository.findById(id).orElse(null);
+        Optional<Book> book = booksRepository.findById(id);
+        return book.orElse(null);
     }
 
     @Transactional
@@ -38,12 +40,12 @@ public class BooksService {
     @Transactional
     public void setOwner(int id, int person_id) {
         Person person = peopleRepository.getReferenceById(person_id);
-        booksRepository.setOwner(person, id);
+        booksRepository.setOwner(id, person, OffsetDateTime.now());
     }
 
     @Transactional
     public void unsetOwner(int id) {
-        booksRepository.setOwner(null, id);
+        booksRepository.unsetOwner(id);
     }
 
     @Transactional

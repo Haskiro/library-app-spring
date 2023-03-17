@@ -9,7 +9,7 @@
 <div th:if="${person.getBooks().size() > 0}">
   <h3>Книги</h3>
   <ul th:each="book: ${person.getBooks()}">
-    <li th:text="${book.getAuthor() + ', ' + book.getTitle() + ', ' + book.getYear()}" />
+    <li th:style="${book.isToBeReturned() ? 'color: red' : 'color: black' }" th:text="${book.getAuthor() + ', ' + book.getTitle() + ', ' + book.getYear()}" />
   </ul>
 </div>
 <p th:if="${person.getBooks().size() == 0}">Человек пока не взял ни одной книги</p>

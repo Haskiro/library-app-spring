@@ -2,8 +2,10 @@ package com.github.haskiro.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import org.springframework.lang.Nullable;
 
+import java.time.OffsetDateTime;
+import java.util.Calendar;
+import java.util.Date;
 
 @Entity
 @Table(name = "book")
@@ -26,6 +28,13 @@ public class Book {
     @NotNull(message = "Год должен быть не пустым")
     @Column(name = "year")
     private int year;
+
+    @Column(name = "taken_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    private OffsetDateTime takenAt;
+
+    @Transient
+    private boolean toBeReturned = false;
 
     @ManyToOne
     @JoinColumn(name = "person_id", referencedColumnName = "id")
@@ -76,6 +85,22 @@ public class Book {
 
     public void setOwner(Person owner) {
         this.owner = owner;
+    }
+
+    public OffsetDateTime getTakenAt() {
+        return takenAt;
+    }
+
+    public void setTakenAt(OffsetDateTime takenAt) {
+        this.takenAt = takenAt;
+    }
+
+    public boolean isToBeReturned() {
+        return toBeReturned;
+    }
+
+    public void setToBeReturned(boolean toBeReturned) {
+        this.toBeReturned = toBeReturned;
     }
 
     @Override
