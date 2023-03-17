@@ -120,4 +120,20 @@ public class BookController {
         return "books/edit";
     }
 
+    @GetMapping("/search")
+    public String search(@RequestParam("value") Optional<String> value, Model model) {
+        if (value.isEmpty()) {
+            model.addAttribute("isSearched", false);
+            model.addAttribute("value", "");
+            return "books/search";
+        }
+
+        List<Book> books = booksService.search(value.get());
+        model.addAttribute("isSearched", true);
+        model.addAttribute("books", books);
+        model.addAttribute("value", value.get());
+
+        return "books/search";
+    }
+
 }

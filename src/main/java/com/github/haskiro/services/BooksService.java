@@ -74,4 +74,8 @@ public class BooksService {
     public void create(Book book) {
         booksRepository.save(book);
     }
+
+    public List<Book> search(String value) {
+        return booksRepository.findByTitleContainingIgnoreCase(value);
+    }
 }

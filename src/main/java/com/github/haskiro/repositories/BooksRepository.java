@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 
 @Repository
 public interface BooksRepository extends JpaRepository<Book, Integer> {
@@ -18,4 +19,6 @@ public interface BooksRepository extends JpaRepository<Book, Integer> {
     @Modifying
     @Query("UPDATE Book book SET book.owner=NULL, book.takenAt=NULL WHERE book.id=:id")
     void unsetOwner(@Param("id") int id);
+
+    List<Book> findByTitleContainingIgnoreCase(String value);
 }
