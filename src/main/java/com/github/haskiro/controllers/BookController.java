@@ -6,10 +6,17 @@ import com.github.haskiro.services.BooksService;
 import com.github.haskiro.services.PeopleService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.swing.text.html.Option;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/books")
@@ -25,8 +32,22 @@ public class BookController {
 
 
     @GetMapping()
-    public String index(Model model) {
-        model.addAttribute("books", booksService.findAll());
+    public String index(Model model, @RequestParam(value = "sort_by_year") Optional<Boolean> sortByYear,
+                        @RequestParam(value = "page") Optional<Integer> page, @RequestParam(value = "books_per_page") Optional<Integer> booksPerPage) {
+        List<Book> books = new ArrayList<>();
+        if (page.isPresent() && booksPerPage.isPresent()) {
+            if (sortByYear.isPresent()) {
+                books.addAll(booksService.findAll(page.get(), booksPerPage.get(), sortByYear.get()));
+            } else {
+                books.addAll(booksService.findAll(page.get(), booksPerPage.get(), false));
+            }
+        } else if (sortByYear.isPresent()) {
+            books.addAll(booksService.findAll(sortByYear.get()));
+        } else {
+            books.addAll(booksService.findAll());
+        }
+
+        model.addAttribute("books", books);
         return "books/index";
     }
 

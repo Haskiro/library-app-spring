@@ -5,10 +5,11 @@ import com.github.haskiro.models.Person;
 import com.github.haskiro.repositories.BooksRepository;
 import com.github.haskiro.repositories.PeopleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.util.*;
 
@@ -23,6 +24,22 @@ public class BooksService {
     }
 
     public List<Book> findAll() {
+        return booksRepository.findAll();
+    }
+
+    public List<Book> findAll(int page, int itemsPerPage, boolean sortByYear) {
+        if (sortByYear) {
+            return booksRepository.findAll(PageRequest.of(page, itemsPerPage, Sort.by("year"))).getContent();
+        }
+
+        return booksRepository.findAll(PageRequest.of(page, itemsPerPage)).getContent();
+    }
+
+    public List<Book> findAll(boolean sortByYear) {
+        if (sortByYear) {
+            return booksRepository.findAll(Sort.by("year"));
+        }
+
         return booksRepository.findAll();
     }
 
