@@ -1,7 +1,7 @@
-package com.github.haskiro.repositories;
+package com.github.haskiro.springlibrary.repositories;
 
-import com.github.haskiro.models.Book;
-import com.github.haskiro.models.Person;
+import com.github.haskiro.springlibrary.models.Book;
+import com.github.haskiro.springlibrary.models.Person;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

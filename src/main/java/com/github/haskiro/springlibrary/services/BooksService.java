@@ -1,9 +1,9 @@
-package com.github.haskiro.services;
+package com.github.haskiro.springlibrary.services;
 
-import com.github.haskiro.models.Book;
-import com.github.haskiro.models.Person;
-import com.github.haskiro.repositories.BooksRepository;
-import com.github.haskiro.repositories.PeopleRepository;
+import com.github.haskiro.springlibrary.models.Book;
+import com.github.haskiro.springlibrary.models.Person;
+import com.github.haskiro.springlibrary.repositories.BooksRepository;
+import com.github.haskiro.springlibrary.repositories.PeopleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -11,7 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.OffsetDateTime;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BooksService {
@@ -23,11 +24,7 @@ public class BooksService {
         this.peopleRepository = peopleRepository;
     }
 
-    public List<Book> findAll() {
-        return booksRepository.findAll();
-    }
-
-    public List<Book> findAll(int page, int itemsPerPage, boolean sortByYear) {
+    public List<Book> findAllWithPagination(int page, int itemsPerPage, boolean sortByYear) {
         if (sortByYear) {
             return booksRepository.findAll(PageRequest.of(page, itemsPerPage, Sort.by("year"))).getContent();
         }
@@ -49,9 +46,13 @@ public class BooksService {
     }
 
     @Transactional
-    public void update(int id, Book book) {
-        book.setId(id);
-        booksRepository.save(book);
+    public void update(int id, Book updatedBook) {
+        Book bookToBeUpdated = booksRepository.findById(id).get();
+
+        updatedBook.setOwner(bookToBeUpdated.getOwner()); // Чтоб не потерялась связь при обновлении
+        updatedBook.setId(id);
+        // Добавляем по сути новую книгу (которая не находится в Persistence context), поэтму нужуен save()
+        booksRepository.save(updatedBook);
     }
 
     @Transactional

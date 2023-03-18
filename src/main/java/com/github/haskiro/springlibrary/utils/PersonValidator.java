@@ -1,7 +1,7 @@
-package com.github.haskiro.utils;
+package com.github.haskiro.springlibrary.utils;
 
-import com.github.haskiro.models.Person;
-import com.github.haskiro.services.PeopleService;
+import com.github.haskiro.springlibrary.models.Person;
+import com.github.haskiro.springlibrary.services.PeopleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;

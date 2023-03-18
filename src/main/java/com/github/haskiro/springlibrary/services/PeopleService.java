@@ -1,7 +1,7 @@
-package com.github.haskiro.services;
+package com.github.haskiro.springlibrary.services;
 
-import com.github.haskiro.models.Person;
-import com.github.haskiro.repositories.PeopleRepository;
+import com.github.haskiro.springlibrary.models.Person;
+import com.github.haskiro.springlibrary.repositories.PeopleRepository;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,19 +1,16 @@
-package com.github.haskiro.controllers;
+package com.github.haskiro.springlibrary.controllers;
 
-import com.github.haskiro.models.Book;
-import com.github.haskiro.models.Person;
-import com.github.haskiro.services.BooksService;
-import com.github.haskiro.services.PeopleService;
+import com.github.haskiro.springlibrary.models.Book;
+import com.github.haskiro.springlibrary.models.Person;
+import com.github.haskiro.springlibrary.services.BooksService;
+import com.github.haskiro.springlibrary.services.PeopleService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -37,14 +34,14 @@ public class BookController {
         List<Book> books = new ArrayList<>();
         if (page.isPresent() && booksPerPage.isPresent()) {
             if (sortByYear.isPresent()) {
-                books.addAll(booksService.findAll(page.get(), booksPerPage.get(), sortByYear.get()));
+                books.addAll(booksService.findAllWithPagination(page.get(), booksPerPage.get(), sortByYear.get()));
             } else {
-                books.addAll(booksService.findAll(page.get(), booksPerPage.get(), false));
+                books.addAll(booksService.findAllWithPagination(page.get(), booksPerPage.get(), false));
             }
         } else if (sortByYear.isPresent()) {
             books.addAll(booksService.findAll(sortByYear.get()));
         } else {
-            books.addAll(booksService.findAll());
+            books.addAll(booksService.findAll(false));
         }
 
         model.addAttribute("books", books);

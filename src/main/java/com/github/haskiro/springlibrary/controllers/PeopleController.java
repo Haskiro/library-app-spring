@@ -1,8 +1,8 @@
-package com.github.haskiro.controllers;
+package com.github.haskiro.springlibrary.controllers;
 
-import com.github.haskiro.models.Person;
-import com.github.haskiro.services.PeopleService;
-import com.github.haskiro.utils.PersonValidator;
+import com.github.haskiro.springlibrary.models.Person;
+import com.github.haskiro.springlibrary.services.PeopleService;
+import com.github.haskiro.springlibrary.utils.PersonValidator;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
